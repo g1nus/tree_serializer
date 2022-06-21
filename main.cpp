@@ -127,7 +127,7 @@ Node* createTreeFromVector(Node* root, std::vector<NodeSerialized> serializedTre
  * @param serializedTree vector that is going to contain the serialized nodes
  * @return currentId ,it's the id in which the node is going to be saved inside the array (the main output is 0 because it starts at the root)
  */
-int createvect(Node* root, std::vector<NodeSerialized>& serializedTree){
+int createVector(Node* root, std::vector<NodeSerialized>& serializedTree){
     // I create the serialized version of the node
     NodeSerialized newNode = newNodeSerialized(root->value, root->type);
 
@@ -141,14 +141,14 @@ int createvect(Node* root, std::vector<NodeSerialized>& serializedTree){
     // if the node is a fork I need to save the children in the vector and obtain their position id inside the vector
     if(root->type == F){
         // note that the recursive call is going to return the id position in which the children node is going to be saved
-        sonId = createvect(root->nw, serializedTree);
+        sonId = createVector(root->nw, serializedTree);
         // I save the children id
         serializedTree[currentId].children[0] = sonId;
-        sonId = createvect(root->ne, serializedTree);
+        sonId = createVector(root->ne, serializedTree);
         serializedTree[currentId].children[1] = sonId;
-        sonId = createvect(root->se, serializedTree);
+        sonId = createVector(root->se, serializedTree);
         serializedTree[currentId].children[2] = sonId;
-        sonId = createvect(root->sw, serializedTree);
+        sonId = createVector(root->sw, serializedTree);
         serializedTree[currentId].children[3] = sonId;
     }
 
@@ -165,7 +165,7 @@ int main() {
 
     // I create a vector and save inside of it the structure of the tree
     std::vector<NodeSerialized> values;
-    createvect(root, values);
+    createVector(root, values);
     // I print the vector in console
     printVect(values);
 
@@ -175,7 +175,7 @@ int main() {
     Node* root2 = createTreeFromVector(new Node, values, 0);
     printTraverseTree(root2);
     std::vector<NodeSerialized> values2;
-    createvect(root2, values2);
+    createVector(root2, values2);
     printVect(values2);
     return 0;
 }
