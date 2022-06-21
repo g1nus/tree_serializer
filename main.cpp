@@ -58,6 +58,19 @@ Node* createTree(){
     return root;
 }
 
+Node* createTreeFromVector(Node* root, std::vector<NodeSerialized> values, int id){
+    root->value = values[id].value;
+    root->type = values[id].type;
+    root->nw = root->sw = root->ne = root->se = NULL;
+    if(root->type == F){
+        root->nw = createTreeFromVector(new Node, values, values[id].sons[0]);
+        root->ne = createTreeFromVector(new Node, values, values[id].sons[1]);
+        root->se = createTreeFromVector(new Node, values, values[id].sons[2]);
+        root->sw = createTreeFromVector(new Node, values, values[id].sons[3]);
+    }
+    return root;
+}
+
 void traverse_tree(Node* root){
     std::cout << "(" << root->value << ", " << (root->type == L ? "L" : "F") << ")"<<std::endl;
     if(root->type == L){
@@ -115,5 +128,12 @@ int main() {
     std::vector<NodeSerialized> values;
     createvect(root, values);
     printvect(values);
+
+    std::cout << "Hello, World!" << std::endl;
+    Node* root2 = createTreeFromVector(new Node, values, 0);
+    traverse_tree(root2);
+    std::vector<NodeSerialized> values2;
+    createvect(root2, values2);
+    printvect(values2);
     return 0;
 }
